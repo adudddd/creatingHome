@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serene Shores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.5s ease;
+        }
+        
+        body {
+            background-color: #e6f7ff;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .scene {
+            position: relative;
+            flex-grow: 1;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #87CEEB, #e6f7ff);
+        }
+        
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to bottom, #87CEEB, #c9e9f6);
+            z-index: 1;
+        }
+        
+        .sun {
+            position: absolute;
+            top: 50px;
+            left: 80%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffff99, #ffcc00);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 20px #ffff99;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            z-index: 3;
+            opacity: 0.8;
+        }
+        
+        .cloud1 {
+            top: 100px;
+            left: 200px;
+            width: 100px;
+            height: 40px;
+            animation: cloudMove 100s linear infinite;
+        }
+        
+        .cloud2 {
+            top: 150px;
+            left: 600px;
+            width: 150px;
+            height: 50px;
+            animation: cloudMove 150s linear infinite;
+        }
+        
+        .ocean {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to bottom, #4fa8e0, #1e5799);
+            z-index: 4;
+        }
+        
+        .wave {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to bottom, #7fcdff, transparent);
+            opacity: 0.7;
+            border-radius: 50%;
+            z-index: 5;
+        }
+        
+        .wave1 {
+            bottom: 120px;
+            animation: waveMove 5s ease-in-out infinite;
+        }
+        
+        .wave2 {
+            bottom: 100px;
+            animation: waveMove 7s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        
+        .wave3 {
+            bottom: 80px;
+            animation: waveMove 6s ease-in-out infinite;
+            animation-delay: 2s;
+        }
+        
+        .beach {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(to bottom, #f2d694, #e6c88a);
+            z-index: 6;
+        }
+        
+        .island {
+            position: absolute;
+            bottom: 79px;
+            left: 70%;
+            width: 200px;
+            height: 100px;
+            background: #e6c88a;
+            border-radius: 100px 100px 0 0;
+            z-index: 6;
+        }
+        
+        .palm-tree {
+            position: absolute;
+            bottom: 140px;
+            left: calc(70% + 50px);
+            z-index: 7;
+        }
+        
+        .trunk {
+            width: 15px;
+            height: 80px;
+            background: linear-gradient(to right, #8B4513, #A0522D);
+            margin-left: 20px;
+            transform: rotate(10deg);
+        }
+        
+        .leaves {
+            position: absolute;
+            top: -40px;
+            width: 60px;
+            height: 60px;
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background: #2e8b57;
+            border-radius: 50% 50% 0 50%;
+            transform-origin: bottom right;
+        }
+        
+        .leaf:nth-child(1) {
+            transform: rotate(0deg);
+        }
+        
+        .leaf:nth-child(2) {
+            transform: rotate(60deg);
+        }
+        
+        .leaf:nth-child(3) {
+            transform: rotate(120deg);
+        }
+        
+        .leaf:nth-child(4) {
+            transform: rotate(180deg);
+        }
+        
+        .leaf:nth-child(5) {
+            transform: rotate(240deg);
+        }
+        
+        .leaf:nth-child(6) {
+            transform: rotate(300deg);
+        }
+        
+        .boat {
+            position: absolute;
+            bottom: 130px;
+            left: 20%;
+            z-index: 7;
+            cursor: pointer;
+        }
+        
+        .boat-body {
+            width: 100px;
+            height: 30px;
+            background: #8B4513;
+            border-radius: 0 20px 0 20px;
+        }
+        
+        .sail {
+            position: absolute;
+            top: -60px;
+            left: 30px;
+            width: 5px;
+            height: 60px;
+            background: #A0522D;
+        }
+        
+        .sail-canvas {
+            position: absolute;
+            top: -50px;
+            left: 35px;
+            width: 40px;
+            height: 50px;
+            background: white;
+            border-radius: 10px;
+        }
+        
+        .cabin {
+            position: absolute;
+            bottom: 30px;
+            left: 15px;
+            width: 30px;
+            height: 20px;
+            background: #A0522D;
+        }
+        
+        .fish {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background: #ff9999;
+            border-radius: 50% 50% 50% 50%;
+            z-index: 6;
+            cursor: pointer;
+        }
+        
+        .fish::after {
+            content: "";
+            position: absolute;
+            right: -10px;
+            top: 5px;
+            border-left: 15px solid #ff9999;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+        
+        .fish1 {
+            bottom: 100px;
+            left: 30%;
+            animation: fishSwim 30s linear infinite;
+            background: #f67280;
+        }
+        
+        .fish2 {
+            bottom: 120px;
+            left: 40%;
+            animation: fishSwim 25s linear infinite;
+            animation-delay: 5s;
+            background: #6c5b7b;
+        }
+        
+        .fish3 {
+            bottom: 140px;
+            left: 60%;
+            animation: fishSwim 35s linear infinite;
+            animation-delay: 10s;
+            background: #c06c84;
+        }
+        
+        .shell {
+            position: absolute;
+            width: 20px;
+            height: 15px;
+            background: #ffcccc;
+            border-radius: 50% 50% 0 0;
+            z-index: 7;
+            cursor: pointer;
+        }
+        
+        .shell::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 15px;
+            background: linear-gradient(to right, transparent, #ffcccc);
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .shell1 {
+            bottom: 20px;
+            left: 20%;
+        }
+        
+        .shell2 {
+            bottom: 30px;
+            left: 40%;
+        }
+        
+        .shell3 {
+            bottom: 25px;
+            left: 60%;
+        }
+        
+        .bird {
+            position: absolute;
+            top: 150px;
+            z-index: 3;
+            animation: birdFly 40s linear infinite;
+        }
+        
+        .bird::before, .bird::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 5px;
+            background: black;
+            border-radius: 50%;
+            transform-origin: right;
+        }
+        
+        .bird::before {
+            transform: rotate(-30deg);
+        }
+        
+        .bird::after {
+            transform: rotate(30deg);
+        }
+        
+        .bird1 {
+            left: -50px;
+        }
+        
+        .bird2 {
+            left: -100px;
+            top: 130px;
+            animation-delay: 5s;
+        }
+        
+        .bird3 {
+            left: -150px;
+            top: 170px;
+            animation-delay: 10s;
+        }
+        
+        .dock {
+            position: absolute;
+            bottom: 79px;
+            left: 10%;
+            width: 20px;
+            height: 100px;
+            background: #8B4513;
+            z-index: 5;
+        }
+        
+        .dock-top {
+            position: absolute;
+            bottom: 79px;
+            left: calc(10% - 40px);
+            width: 100px;
+            height: 10px;
+            background: #A0522D;
+            z-index: 6;
+        }
+        
+        .hut {
+            position: absolute;
+            bottom: 79px;
+            left: 85%;
+            z-index: 7;
+        }
+        
+        .hut-base {
+            width: 60px;
+            height: 40px;
+            background: #D2B48C;
+        }
+        
+        .hut-roof {
+            width: 80px;
+            height: 40px;
+            background: #8B4513;
+            margin-left: -10px;
+            margin-top: -20px;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+        
+        .hut-door {
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: 20px;
+            height: 30px;
+            background: #5a3d2b;
+            cursor: pointer;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 10;
+        }
+        
+        .button {
+            padding: 10px 15px;
+            background: #4fa8e0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .button:hover {
+            background: #3887b7;
+        }
+        
+        .time-cycle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            z-index: 10;
+        }
+        
+        .time-label {
+            margin-right: 10px;
+        }
+        
+        .inventory {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 10;
+        }
+        
+        .inventory-title {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .inventory-items {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .inventory-item {
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+        
+        .message-box {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            z-index: 100;
+            display: none;
+        }
+        
+        .message-text {
+            margin-bottom: 10px;
+        }
+        
+        .message-options {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .message-option {
+            padding: 5px 10px;
+            background: #4fa8e0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        @keyframes cloudMove {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(2000px);
+            }
+        }
+        
+        @keyframes waveMove {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+        
+        @keyframes fishSwim {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(200px) scaleX(-1);
+            }
+            100% {
+                transform: translateX(0) scaleX(1);
+            }
+        }
+        
+        @keyframes birdFly {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(2000px);
+            }
+        }
+        
+        /* Time cycle styles */
+        body.morning {
+            background-color: #e6f7ff;
+        }
+        
+        body.morning .sky {
+            background: linear-gradient(to bottom, #87CEEB, #c9e9f6);
+        }
+        
+        body.morning .sun {
+            top: 80px;
+            left: 30%;
+            background: radial-gradient(circle, #ffff99, #ffcc00);
+        }
+        
+        body.afternoon {
+            background-color: #e6f7ff;
+        }
+        
+        body.afternoon .sky {
+            background: linear-gradient(to bottom, #87CEEB, #c9e9f6);
+        }
+        
+        body.afternoon .sun {
+            top: 50px;
+            left: 80%;
+            background: radial-gradient(circle, #ffff99, #ffcc00);
+        }
+        
+        body.evening {
+            background-color: #ffefd5;
+        }
+        
+        body.evening .sky {
+            background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+        }
+        
+        body.evening .sun {
+            top: 120px;
+            left: 90%;
+            background: radial-gradient(circle, #ff9966, #ff5e62);
+        }
+        
+        body.night {
+            background-color: #0f2027;
+        }
+        
+        body.night .sky {
+            background: linear-gradient(to bottom, #0f2027, #203a43);
+        }
+        
+        body.night .sun {
+            top: 80px;
+            left: 80%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #f5f5f5, #e6e6e6);
+            box-shadow: 0 0 20px #f5f5f5;
+        }
+        
+        body.night .ocean {
+            background: linear-gradient(to bottom, #203a43, #0f2027);
+        }
+        
+        /* Morning animations */
+        @keyframes sunriseSun {
+            0% {
+                top: 150px;
+                left: 20%;
+                transform: scale(1.5);
+                background: radial-gradient(circle, #ff6666, #ff3300);
+            }
+            100% {
+                top: 80px;
+                left: 30%;
+                transform: scale(1);
+                background: radial-gradient(circle, #ffff99, #ffcc00);
+            }
+        }
+        
+        /* Collection feedback */
+        .collected {
+            animation: collect 1s forwards;
+        }
+        
+        @keyframes collect {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="afternoon">
+    <div class="scene">
+        <div class="sky"></div>
+        <div class="sun"></div>
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="bird bird1"></div>
+        <div class="bird bird2"></div>
+        <div class="bird bird3"></div>
+        <div class="ocean"></div>
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+        <div class="fish fish1"></div>
+        <div class="fish fish2"></div>
+        <div class="fish fish3"></div>
+        <div class="dock"></div>
+        <div class="dock-top"></div>
+        <div class="boat">
+            <div class="boat-body"></div>
+            <div class="sail"></div>
+            <div class="sail-canvas"></div>
+            <div class="cabin"></div>
+        </div>
+        <div class="beach"></div>
+        <div class="shell shell1"></div>
+        <div class="shell shell2"></div>
+        <div class="shell shell3"></div>
+        <div class="island"></div>
+        <div class="palm-tree">
+            <div class="trunk"></div>
+            <div class="leaves">
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+                <div class="leaf"></div>
+            </div>
+        </div>
+        <div class="hut">
+            <div class="hut-roof"></div>
+            <div class="hut-base"></div>
+            <div class="hut-door"></div>
+        </div>
+        
+        <div class="inventory">
+            <div class="inventory-title">Collection:</div>
+            <div class="inventory-items">
+                <div class="inventory-item">🐚</div>
+                <div class="inventory-item">🐟</div>
+                <div class="inventory-item">🍃</div>
+            </div>
+        </div>
+        
+        <div class="time-cycle">
+            <span class="time-label">Time:</span>
+            <span class="time-value">Afternoon</span>
+        </div>
+        
+        <div class="message-box">
+            <div class="message-text">Welcome to Serene Shores! Take a moment to enjoy the peaceful beach. What would you like to do?</div>
+            <div class="message-options">
+                <button class="message-option" onclick="closeMessage()">Collect shells</button>
+                <button class="message-option" onclick="closeMessage()">Go fishing</button>
+                <button class="message-option" onclick="closeMessage()">Visit the hut</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="button" onclick="changeTime('morning')">Morning</button>
+        <button class="button" onclick="changeTime('afternoon')">Afternoon</button>
+        <button class="button" onclick="changeTime('evening')">Evening</button>
+        <button class="button" onclick="changeTime('night')">Night</button>
+        <button class="button" onclick="showMessage()">Interact</button>
+    </div>
+
+    <script>
+        // Simple JavaScript to handle interactions
+        function changeTime(time) {
+            document.body.className = time;
+            document.querySelector('.time-value').textContent = time.charAt(0).toUpperCase() + time.slice(1);
+        }
+        
+        function showMessage() {
+            document.querySelector('.message-box').style.display = 'block';
+        }
+        
+        function closeMessage() {
+            document.querySelector('.message-box').style.display = 'none';
+        }
+        
+        // Make items collectible
+        const collectibles = document.querySelectorAll('.shell, .fish');
+        collectibles.forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.add('collected');
+                setTimeout(() => {
+                    this.style.display = 'none';
+                }, 1000);
+            });
+        });
+        
+        // Initialize with welcome message
+        window.onload = function() {
+            setTimeout(showMessage, 1000);
+        };
+        
+        // Boat interaction
+        document.querySelector('.boat').addEventListener('click', function() {
+            this.style.left = '40%';
+            setTimeout(() => {
+                this.style.left = '20%';
+            }, 5000);
+        });
+        
+        // Hut interaction
+        document.querySelector('.hut-door').addEventListener('click', function() {
+            document.querySelector('.message-text').textContent = 'The small beach hut is cozy and warm inside. You can rest here and watch the ocean through the window.';
+            showMessage();
+        });
+    </script>
+</body>
+</html>
